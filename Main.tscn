@@ -182,7 +182,9 @@ layout_mode = 2
 [node name="Download multiple levels" type="Button" parent="Actions"]
 layout_mode = 2
 tooltip_text = "Start batch download.
-Downloading is limited to 10 downloads at any given moment, this is not because of bandwidth, but for preventing issues with file write operations."
+Downloading is limited to 10 downloads at any given moment.
+This is not because of bandwidth,
+but for preventing issues with file write operations."
 theme_override_font_sizes/font_size = 0
 text = "Batch download zoom levels"
 
@@ -235,6 +237,8 @@ layout_mode = 2
 [node name="Control9" type="Control" parent="Actions"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+tooltip_text = "Number of tiles that will be downloaded.
+If a tile already exists, download will not start."
 
 [node name="Label" type="Label" parent="Actions/Control9"]
 layout_mode = 0
@@ -275,7 +279,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 tooltip_text = "Approximate size of the tiles downloaded so far.
-Approximation does not account for file padding, so the real size is slightly larger."
+Approximation does not account for file padding,
+so the real size is slightly larger."
 mouse_filter = 0
 text = "Tile size (aprox.):"
 vertical_alignment = 1
@@ -316,9 +321,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -9.0
-offset_top = -178.0
-offset_right = 9.0
-offset_bottom = 4.0
+offset_top = -247.0
+offset_right = 41.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
@@ -334,10 +339,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -24.5
-offset_top = -128.5
-offset_right = 25.5
-offset_bottom = -78.5
+offset_left = -9.5
+offset_top = -178.0
+offset_right = 40.5
+offset_bottom = -128.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(25, 25)
@@ -388,7 +393,8 @@ offset_bottom = 24.0
 
 [node name="MenuButton" type="MenuButton" parent="Actions"]
 layout_mode = 2
-tooltip_text = "{x} {y} {z} in the URL are place holders for tile X coordinate, tile Y coordinate, and Zoom level, respectively."
+tooltip_text = "{x} {y} {z} in the URL are place holders for
+tile X coordinate, tile Y coordinate, and Zoom level."
 text = "URL Presets"
 icon = ExtResource("2_cm0pq")
 flat = false
@@ -477,6 +483,20 @@ offset_bottom = 23.0
 text = "0"
 horizontal_alignment = 2
 
+[node name="VERSION" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.235
+offset_top = -17.445
+offset_right = 117.235
+offset_bottom = -3.44501
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Version 1.1 - 2026.06.01"
+vertical_alignment = 2
+
 [node name="Data" type="Node" parent="."]
 
 [node name="Tile Manager" type="Node" parent="Data" node_paths=PackedStringArray("layout2", "layout4", "tileBackground", "urlPresets", "tileFormat", "loadScreen", "batchZoomLevel", "batchDownloadCount", "zoomLevel", "sizeApprox", "xCoords", "yCoords")]
@@ -496,20 +516,6 @@ xCoords = NodePath("../../Current tile coordinates/X coords")
 yCoords = NodePath("../../Current tile coordinates/Y coords")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="Data"]
-
-[node name="VERSION" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.235
-offset_top = -17.445
-offset_right = 109.235
-offset_bottom = -3.44501
-grow_vertical = 0
-theme_override_font_sizes/font_size = 10
-text = "Version 1.0.1 - 2026.05.28"
-vertical_alignment = 2
 
 [connection signal="pressed" from="Actions/Zoom in" to="Data/Tile Manager" method="ZoomIn"]
 [connection signal="pressed" from="Actions/Zoom out" to="Data/Tile Manager" method="ZoomOut"]

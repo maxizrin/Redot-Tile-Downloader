@@ -17,7 +17,7 @@ public partial class TileManager : Node
     [Export] ButtonGroup group;
     /// <summary>
     ///  The tile we are zoomed in on, if any data exists for it.
-    /// Only relavent for zoom levels higher than 0.
+    /// Only relevant for zoom levels higher than 0.
     /// </summary>
     [Export] TextureRect tileBackground;
 
@@ -34,8 +34,19 @@ public partial class TileManager : Node
     [Export] Label xCoords;
     [Export] Label yCoords;
 
+    /// <summary>
+    /// List of scheduled downloads for batch downloading.
+    /// </summary>
+    /// <typeparam name="Vector3I"></typeparam>
+    /// <returns></returns>
     private new List<Vector3I> scheduledDownloads = new List<Vector3I>();
-    private int downloadRecDepth = 1;
+    /// <summary>
+    /// Depth of zoom to download when batch downloading.
+    /// </summary>
+    private int downloadBatchDepth = 1;
+    /// <summary>
+    /// Current map zoom.
+    /// </summary>
     int currentZoom => tilePath.Count;
     /// <summary>
     /// The current, and cooridnates of tiles, as we traverse the map.
@@ -50,9 +61,9 @@ public partial class TileManager : Node
     Vector2I currentTile = new Vector2I(-1, -1);
     /// <summary>
     /// Currently selected child tile.
+    /// All actions apply to this tile.
     /// </summary>
     Tile targetTile = null;
-
 
     private bool is2TileLayout => (layout2.GetChild(1, false) as Control).Visible;
 
@@ -377,6 +388,8 @@ public partial class TileManager : Node
 
     public void DownloadTile()
     {
+        if (targetTile == null)
+            return;
         StartDownload(targetTile.coords, currentZoom, true);
     }
 
@@ -392,7 +405,7 @@ public partial class TileManager : Node
             new List<Vector2I>([targetTile.coords])
         };
 
-        for (int zoom = currentZoom + 1, i = 0; zoom < currentZoom + downloadRecDepth + 1; zoom++, i++)
+        for (int zoom = currentZoom + 1, i = 0; zoom < currentZoom + downloadBatchDepth + 1; zoom++, i++)
         {
             var res = new List<Vector2I>();
             coords[i].ForEach(prevLayerTile =>
@@ -426,6 +439,7 @@ public partial class TileManager : Node
     }
 
 
+    // MARK: Download
     private void StartDownload(Vector2I coords, int zoom, bool assign)
     {
         if (HasTile(coords, zoom, out var _))
@@ -444,6 +458,13 @@ public partial class TileManager : Node
           {
               if (targetTile == null)
               {
+                  request.QueueFree();
+                  return;
+              }
+
+              if (responseCode != 200)
+              {
+                  request.QueueFree();
                   return;
               }
 
@@ -464,6 +485,7 @@ public partial class TileManager : Node
                       image.SaveJpg(GetFilePath(coords, zoom, "jpg", true));
                       break;
                   default:
+                      request.QueueFree();
                       return;
               }
               UpdateSizeLabel();
@@ -487,9 +509,9 @@ public partial class TileManager : Node
 
     public void SetDownloadRecZoom(int zoom)
     {
-        downloadRecDepth = zoom;
-        batchZoomLevel.Text = downloadRecDepth.ToString();
-        
+        downloadBatchDepth = zoom;
+        batchZoomLevel.Text = downloadBatchDepth.ToString();
+
         // geometric series formula for sum of powers of X^i where i = 0 to n.
         // (X^(n+1) - 1) / (X - 1)
         // For X = 4, the formula is: (4^(n+1) - 1) / 3.
@@ -501,11 +523,7 @@ public partial class TileManager : Node
     {
         if (zoomLevel <= 0)
         {
-            if (is2TileLayout)
-            {
-                return [new Vector2I(0, 0), new Vector2I(1, 0)];
-            }
-            return [new Vector2I(0, 0)];
+            return [new Vector2I(0, 0), new Vector2I(1, 0)];
         }
         var x = parentCoord.X * 2;
         var y = parentCoord.Y * 2;
