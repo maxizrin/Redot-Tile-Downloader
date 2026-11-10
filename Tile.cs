@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+/// <summary>
+/// A button that also shows a map tile texture in a given coordinate, if it is available.
+/// Can be double clicked to zoom into the tile. Shows a download button if the tile is not downloaded yet.
+/// </summary>
 public partial class Tile : Button
 {
     [Export] Label xCoord;
@@ -36,8 +40,9 @@ public partial class Tile : Button
     public override void _GuiInput(InputEvent @event)
     {
         base._GuiInput(@event);
-        if (@event is InputEventMouseButton me && me.DoubleClick)
+        if (@event is InputEventMouseButton me && me.Pressed && me.DoubleClick && me.ButtonIndex == MouseButton.Left)
         {
+            AcceptEvent();
             onDoubleClicked?.Invoke();
         }
     }
