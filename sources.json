@@ -21,11 +21,15 @@
 			"url": "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
 		},
 		{
+			"name": "Googel - stylized no labels",
+			"url":"https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&apistyle=s.e%3Al%7Cp.v%3Aoff"
+		},
+		{
 			"name": "Open street - with markings",
 			"url": "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
 		},
 		{
-			"name": "Open street - with markings",
+			"name": "Open street - with markings h",
 			"url": "https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
 		},
 		{
@@ -35,22 +39,6 @@
 		{
 			"name": "Open street - topography with ocean",
 			"url": "https://tile.opentopomap.org/{z}/{x}/{y}.png"
-		},
-		{
-			"name": "CartoDB Positron",
-			"url": "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-		},
-		{
-			"name": "CartoDB Positron - no labels",
-			"url": "https://a.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}.png"
-		},
-		{
-			"name": "CartoDB Positron - dark",
-			"url": "https://a.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
-		},
-		{
-			"name": "CartoDB Positron - dark, no labels",
-			"url": "https://a.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}.png"
 		},
 		{
 			"name": "National Satellite",
