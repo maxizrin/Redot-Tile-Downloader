@@ -21,8 +21,12 @@
 			"url": "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
 		},
 		{
-			"name": "Googel - stylized no labels",
+			"name": "Google - stylized no labels",
 			"url":"https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&apistyle=s.e%3Al%7Cp.v%3Aoff"
+		},
+		{
+			"name": "Google - stylized topo no labels",
+			"url":"https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&apistyle=s.e%3Al%7Cp.v%3Aoff"
 		},
 		{
 			"name": "Open street - with markings",
